@@ -1,5 +1,5 @@
-# mupen64plus-web
-Emscripten based web port of Mupen64plus N64 Emulator
+# mupen64plus.js
+Using emscripten to create an easy to use n64 emulaor in Javascript.Written in Webassembly for speed.
 
 ![demo image of mupen64plus in browser](https://raw.githubusercontent.com/johnoneil/mupen64plus-web/master/img/Screenshot%20from%202015-12-19%2016%3A02%3A03.png)
 
@@ -13,7 +13,7 @@ Other roms can be build into web versions by placing the rom in the ```roms``` d
 Debug build config is also available (i.e. ```make config=debug ...```
 
 # Running
-Buiilding as above will use the demo game rom in the ```roms``` directory to generate javascript and html for a playable game in the ```games`` directory.
+Building as above will use the demo game rom in the ```roms``` directory to generate javascript and html for a playable game in the ```games`` directory.
 Serve this directory via a web server, and open in a webgl enabled browser to play.
 
 # Status
