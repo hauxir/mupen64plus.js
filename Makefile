@@ -19,7 +19,7 @@ TARGET_ROM = $(BIN_DIR)/roms/$(ROM)
 SOURCE_ROM = $(ROMS_DIR)/$(ROM)
 
 POSTFIX ?= -web
-SO_EXTENSION ?= .js
+SO_EXTENSION ?= .wasm
 
 UI ?= mupen64plus-ui-console
 UI_DIR = $(UI)/projects/unix
@@ -30,7 +30,7 @@ CORE_LIB = $(CORE)$(POSTFIX)$(SO_EXTENSION)
 
 AUDIO ?= mupen64plus-audio-web
 AUDIO_DIR = $(AUDIO)/projects/unix/
-AUDIO_LIB = $(AUDIO).js
+AUDIO_LIB = $(AUDIO).wasm
 
 NATIVE_AUDIO := mupen64plus-audio-sdl
 NATIVE_AUDIO_DIR = $(NATIVE_AUDIO)/projects/unix
@@ -216,7 +216,7 @@ $(NATIVE_BIN)/mupen64plus-audio-sdl.so: $(NATIVE_BIN) $(NATIVE_AUDIO_DIR)/mupen6
 ifeq ($(config), debug)
 
 OPT_LEVEL = -O0
-DEBUG_LEVEL = -g2 -s ASSERTIONS=1
+DEBUG_LEVEL = -g4 -s ASSERTIONS=1
 
 else
 
@@ -232,9 +232,11 @@ OPT_FLAGS := $(OPT_LEVEL) \
 			-DUSE_FRAMESKIPPER=1 \
 			-DNOSSE=1 \
 			-s TOTAL_MEMORY=$(MEMORY) \
-			-s WASM=0 \
-			-s LEGACY_VM_SUPPORT=1 \
-			-s USE_PTHREADS=0
+			-s WASM=1 \
+			-s USE_PTHREADS=0 \
+			-s LINKABLE=1 \
+			-s EXPORT_ALL=1 \
+			-s BINARYEN_TRAP_MODE=clamp
 
 #$(PLUGINS_DIR)/%.js : %/projects/unix/%.js
 #	cp "$<" "$@"
@@ -380,7 +382,7 @@ $(CORE_DIR)/$(CORE_LIB) :
 		GL_CFLAGS="" \
 		GLU_CFLAGS="" \
 		V=1 \
-		OPTFLAGS="$(OPT_FLAGS) -s SIDE_MODULE=1 -DONSCREEN_FPS=1" \
+		OPTFLAGS="$(OPT_FLAGS) -s SIDE_MODULE=1 -DONSCREEN_FPS=0" \
 		all
 
 
