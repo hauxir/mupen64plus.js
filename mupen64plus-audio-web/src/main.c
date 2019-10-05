@@ -444,7 +444,8 @@ EXPORT void CALL AiLenChanged( void )
 
 		// We have a buffer pointer and number of samples
 		// Just pass them to webaudio.
-		EM_ASM_INT({
+/*
+		/*EM_ASM_INT({
 
         var pBuffer = $0|0;
 				var bufferSize = $1|0;
@@ -490,7 +491,7 @@ EXPORT void CALL AiLenChanged( void )
 				return n;
 		}
 		,p
-		,LenReg);
+		,LenReg);*/
 
 }
 
@@ -690,7 +691,7 @@ static void InitializeAudio(int freq)
 
 
 		//JONEIL create a web audio context
-		EM_ASM_INT({
+		/*EM_ASM_INT({
 			var freq = $0|0;
 			console.error("******** game required freq: ",freq);
 			if(!Module.audio)
@@ -713,7 +714,7 @@ static void InitializeAudio(int freq)
 			Module.audio.TIME_BETWEEN_BUFFERS = 0.1;
 			Module.audio.lastHWUpdate = 0;
 		},
-		freq);
+		freq);*/
 
 
     if (critical_failure == 1)
