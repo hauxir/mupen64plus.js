@@ -229,7 +229,12 @@ OPT_FLAGS := $(OPT_LEVEL) \
 			$(DEBUG_LEVEL) \
 			-s 'EXTRA_EXPORTED_RUNTIME_METHODS=[\"ccall\", \"cwrap\", \"getValue\"]' \
 			-DEMSCRIPTEN=1 \
-			-DUSE_FRAMESKIPPER=1
+			-DUSE_FRAMESKIPPER=1 \
+			-DNOSSE=1 \
+			-s TOTAL_MEMORY=$(MEMORY) \
+			-s WASM=0 \
+			-s LEGACY_VM_SUPPORT=1 \
+			-s USE_PTHREADS=0
 
 #$(PLUGINS_DIR)/%.js : %/projects/unix/%.js
 #	cp "$<" "$@"
@@ -291,7 +296,7 @@ $(RICE_VIDEO_DIR)/$(RICE_VIDEO_LIB):
 			GL_CFLAGS="" \
 			GLU_CFLAGS="" \
 			V=1 \
-			LOADLIBES="../../../boost_1_59_0/stage/lib/libboost_filesystem.a ../../../boost_1_59_0/stage/lib/libboost_system.a" \
+			LDLIBS="../../../boost_1_59_0/stage/lib/libboost_filesystem.a ../../../boost_1_59_0/stage/lib/libboost_system.a" \
 			OPTFLAGS="$(OPT_FLAGS) -s FULL_ES2=1 -DNO_FILTER_THREAD=1 -s SIDE_MODULE=1 -I../../../boost_1_59_0" \
 			all
 
@@ -421,7 +426,7 @@ $(VIDEO_DIR)/$(VIDEO_LIB) : $(BOOST_FILESYSTEM_LIB)
 		GL_CFLAGS="" \
 		GLU_CFLAGS="" \
 		V=1 \
-		LOADLIBES="../../../boost_1_59_0/stage/lib/libboost_filesystem.a ../../../boost_1_59_0/stage/lib/libboost_system.a" \
+		LDLIBS="../../../boost_1_59_0/stage/lib/libboost_filesystem.a ../../../boost_1_59_0/stage/lib/libboost_system.a" \
 		OPTFLAGS="$(OPT_FLAGS) -s SIDE_MODULE=1 -I../../../boost_1_59_0 \ -s FULL_ES2=1 -DNO_FILTER_THREAD=1" \
 		all
 
