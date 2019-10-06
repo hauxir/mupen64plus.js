@@ -1,8 +1,4 @@
-FROM trzeci/emscripten:latest
-#FROM trzeci/emscripten:sdk-tag-1.38.8-64bit
-
-#RUN apt-get update
-#RUN apt-get install -y build-essential
+FROM trzeci/emscripten:1.38.47-ubuntu
 
 WORKDIR /app
-CMD bash -c "make config=release"
+CMD make config=debug
