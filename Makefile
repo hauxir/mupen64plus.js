@@ -19,7 +19,7 @@ TARGET_ROM = $(BIN_DIR)/roms/$(ROM)
 SOURCE_ROM = $(ROMS_DIR)/$(ROM)
 
 POSTFIX ?= -web
-SO_EXTENSION ?= .wasm
+SO_EXTENSION ?= .js
 
 UI ?= mupen64plus-ui-console
 UI_DIR = $(UI)/projects/unix
@@ -30,7 +30,7 @@ CORE_LIB = $(CORE)$(POSTFIX)$(SO_EXTENSION)
 
 AUDIO ?= mupen64plus-audio-web
 AUDIO_DIR = $(AUDIO)/projects/unix/
-AUDIO_LIB = $(AUDIO).wasm
+AUDIO_LIB = $(AUDIO).js
 
 NATIVE_AUDIO := mupen64plus-audio-sdl
 NATIVE_AUDIO_DIR = $(NATIVE_AUDIO)/projects/unix
@@ -215,8 +215,9 @@ $(NATIVE_BIN)/mupen64plus-audio-sdl.so: $(NATIVE_BIN) $(NATIVE_AUDIO_DIR)/mupen6
 
 ifeq ($(config), debug)
 
+EMCC_DEBUG=1
 OPT_LEVEL = -O0
-DEBUG_LEVEL = -g4 -s ASSERTIONS=1
+DEBUG_LEVEL = -g4 -s ASSERTIONS=2
 
 else
 
@@ -232,10 +233,13 @@ OPT_FLAGS := $(OPT_LEVEL) \
 			-DUSE_FRAMESKIPPER=1 \
 			-DNOSSE=1 \
 			-s TOTAL_MEMORY=$(MEMORY) \
-			-s WASM=1 \
+			-s WASM=0 \
 			-s USE_PTHREADS=0 \
-			-s LINKABLE=1 \
+			-s SAFE_HEAP=1 \
 			-s EXPORT_ALL=1 \
+			-s LINKABLE=1 \
+			-s LEGACY_VM_SUPPORT=1 \
+			-s STACK_OVERFLOW_CHECK=2 \
 			-s BINARYEN_TRAP_MODE=clamp
 
 #$(PLUGINS_DIR)/%.js : %/projects/unix/%.js
@@ -288,7 +292,7 @@ $(RICE_VIDEO_DIR)/$(RICE_VIDEO_LIB):
 			UNAME=Linux \
 			USE_FRAMESKIPPER=1 \
 			EMSCRIPTEN=1 \
-			SO_EXTENSION="wasm" \
+			SO_EXTENSION="js" \
 			USE_GLES=1 NO_ASM=1 \
 			ZLIB_CFLAGS="-s USE_ZLIB=1" \
 			PKG_CONFIG="" \
@@ -382,7 +386,7 @@ $(CORE_DIR)/$(CORE_LIB) :
 		GL_CFLAGS="" \
 		GLU_CFLAGS="" \
 		V=1 \
-		OPTFLAGS="$(OPT_FLAGS) -s SIDE_MODULE=1 -DONSCREEN_FPS=0" \
+		OPTFLAGS="$(OPT_FLAGS) -s SIDE_MODULE=1 -DONSCREEN_FPS=0 -Werror" \
 		all
 
 
@@ -397,7 +401,7 @@ $(AUDIO_DIR)/$(AUDIO_LIB) :
 		NO_SRC=1 \
 		NO_SPEEX=1 \
 		NO_OSS=1 \
-		SO_EXTENSION="wasm" \
+		SO_EXTENSION="js" \
 		USE_GLES=1 NO_ASM=1 \
 		ZLIB_CFLAGS="-s USE_ZLIB=1" \
 		PKG_CONFIG="" \
@@ -418,7 +422,7 @@ $(VIDEO_DIR)/$(VIDEO_LIB) : $(BOOST_FILESYSTEM_LIB)
 		POSTFIX=-web \
 		USE_FRAMESKIPPER=1 \
 		EMSCRIPTEN=1 \
-		SO_EXTENSION="wasm" \
+		SO_EXTENSION="js" \
 		USE_GLES=1 NO_ASM=1 \
 		ZLIB_CFLAGS="-s USE_ZLIB=1" \
 		PKG_CONFIG="" \
@@ -440,7 +444,7 @@ $(INPUT_DIR)/$(INPUT_LIB) : $(BOOST_FILESYSTEM_LIB)
 		POSTFIX=-web \
 		UNAME="Linux" \
 		EMSCRIPTEN=1 \
-		SO_EXTENSION="wasm" \
+		SO_EXTENSION="js" \
 		USE_GLES=1 NO_ASM=1 \
 		ZLIB_CFLAGS="-s USE_ZLIB=1" \
 		PKG_CONFIG="" \
@@ -461,7 +465,7 @@ $(RSP_DIR)/$(RSP_LIB) :
 		POSTFIX=-web \
 		UNAME=Linux \
 		EMSCRIPTEN=1 \
-		SO_EXTENSION="wasm" \
+		SO_EXTENSION="js" \
 		USE_GLES=1 NO_ASM=1 NO_OSS=1 NO_SRC=1 NO_SPEEX=1\
 		ZLIB_CFLAGS="-s USE_ZLIB=1" \
 		PKG_CONFIG="" \

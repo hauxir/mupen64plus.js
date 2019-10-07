@@ -58,6 +58,8 @@ static int min_filter0, mag_filter0, wrap_s0, wrap_t0;
 static int min_filter1, mag_filter1, wrap_s1, wrap_t1;
 
 unsigned char *filter(unsigned char *source, int width, int height, int *width2, int *height2);
+void EMSCRIPTEN_KEEPALIVE glTexParameterf(GLenum target, GLenum pname, GLfloat param) asm("glTexParameterf");
+void EMSCRIPTEN_KEEPALIVE glTexParameteri(GLenum target, GLenum pname, GLfloat param) asm("glTexParameteri");
 
 typedef struct _texlist
 {

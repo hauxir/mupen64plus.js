@@ -5,7 +5,61 @@ var spinnerElement = document.getElementById('spinner');
 
 var Module = {
         preRun: [],
-        postRun: [],
+        postRun: [
+            function() {
+        var rom = "/roms/m64p_test_rom.v64";
+        var url = rom;
+        if (url.indexOf('/') === 0){
+          url  = url.replace('/','');        
+        }
+
+        // first sync the IDBFS from persistent storage (game saves from previous browser sessions).
+        // Then fetch the rom we wish to play via xhr and put it into the IDBFS so normal 
+        // c++ file operations can access it easily.
+        console.log('Will load rom: ', rom);
+        
+        FS.mkdir('/roms');
+        FS.mount(IDBFS, {}, '/roms');
+
+        var initIDBFS = function() {
+          return new Promise (
+              function(resolve, reject) {
+                console.log('Initiating async IDBFS read from peristent storage.');
+                FS.syncfs(true, function(){resolve(0);}); 
+              }
+          );
+        };
+
+        var fetchROM = function() {
+          return new Promise( 
+            function (resolve, reject) {
+              console.log('Fetching ROM: ', rom);
+              Module.fetchFile(url, rom,
+                  function(){ console.log('completed load'); resolve(); },
+                  function(){ console.log('failed load.'); reject(); });
+            }
+          );
+        };
+
+        var startCore = function() {
+          return new Promise (
+              function (resolve, reject) {
+                console.log('Starting game core');
+                var startCore = Module.cwrap('startEmulator', 'number', ['number']);
+                startCore(0);
+                resolve(0);
+              }
+            );
+        };
+
+        initIDBFS()
+          .then(fetchROM)
+          .then(startCore)
+          .catch(function(e){console.error("Error during startup promise chain: ", e);});
+
+
+            }
+        ],
         print: (function() {
           var element = document.getElementById('output');
           if (element) element.value = ''; // clear browser cache

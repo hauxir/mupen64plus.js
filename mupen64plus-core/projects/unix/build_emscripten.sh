@@ -2,7 +2,7 @@
 
 emmake make \
   UNAME=Linux \
-  TARGET="libmupen64plus.so.2.wasm" \
+  TARGET="libmupen64plus.so.2.js" \
   SONAME="" \
   USE_GLES=1 NO_ASM=1 \
   ZLIB_CFLAGS="-s USE_ZLIB=1" \

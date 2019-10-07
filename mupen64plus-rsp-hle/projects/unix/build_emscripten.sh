@@ -3,7 +3,7 @@
 emmake make \
   UNAME=Linux \
   EMSCRIPTEN=1 \
-  SO_EXTENSION="wasm" \
+  SO_EXTENSION="js" \
   USE_GLES=1 NO_ASM=1 NO_OSS=1 NO_SRC=1 NO_SPEEX=1\
   ZLIB_CFLAGS="-s USE_ZLIB=1" \
   PKG_CONFIG="" \

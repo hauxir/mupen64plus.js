@@ -1479,6 +1479,7 @@ void savestates_init(void)
     savestates_lock = SDL_CreateMutex();
     if (!savestates_lock) {
         DebugMessage(M64MSG_ERROR, "Could not create savestates list lock");
+        DebugMessage(M64MSG_ERROR, SDL_GetError());
         return;
     }
 }

@@ -57,7 +57,7 @@ static m64p_handle l_ConfigUI = NULL;
 
 #if EMSCRIPTEN
 
-static const char *l_CoreLibPath = "plugins/mupen64plus-core-web.wasm";
+static const char *l_CoreLibPath = "plugins/mupen64plus-core-web.js";
 static const char *l_ConfigDirPath = "/data";
 #ifdef INPUT_ROM
 #define xstr(a) str(a)
@@ -714,6 +714,7 @@ int main(int argc, char *argv[])
         return 2;
 
     /* start the Mupen64Plus core library, load the configuration file */
+    printf("CHECKPOINT 1");
 
     m64p_error rval = (*CoreStartup)(CORE_API_VERSION, l_ConfigDirPath, l_DataDirPath, "Core", DebugCallback, NULL, CALLBACK_FUNC);
     if (rval != M64ERR_SUCCESS)
@@ -722,6 +723,7 @@ int main(int argc, char *argv[])
         DetachCoreLib();
         return 3;
     }
+    printf("CHECKPOINT 2");
 
     /* Open configuration sections */
     rval = OpenConfigurationHandles();
@@ -731,6 +733,7 @@ int main(int argc, char *argv[])
         DetachCoreLib();
         return 4;
     }
+    printf("CHECKPOINT 3");
 
     /* parse command-line options */
     rval = ParseCommandLineFinal(argc, (const char **) argv);
@@ -740,14 +743,14 @@ int main(int argc, char *argv[])
         DetachCoreLib();
         return 5;
     }
+    printf("CHECKPOINT 4");
 
     // On emscripten we have to prepare some things asynchronously before we can start the emulator
- #if EMSCRIPTEN
       // initiate async call to mount IDBFS persistent filesystem to /save
       // and when that completes start up the core with an async call to
       // "CoreDoCommand"
-      /*EM_ASM_INT({
-        var rom = Pointer_stringify($0|0);
+      /*EM_ASM({
+        var rom = "/roms/m64p_test_rom.v64";
         var url = rom;
         if (url.indexOf('/') === 0){
           url  = url.replace('/','');        
@@ -798,10 +801,11 @@ int main(int argc, char *argv[])
           .catch(function(e){console.error("Error during startup promise chain: ", e);});
 
         return 0;
-      }
-      ,l_ROMFilepath);*/
+      });*/
 
+    printf("CHECKPOINT 5");
       emscripten_set_main_loop(dummy_main,0,1);
+    printf("CHECKPOINT 6");
     
     return 0;
 }
@@ -812,7 +816,6 @@ int EMSCRIPTEN_KEEPALIVE startEmulator(int dummy)
   int i = 0;
   m64p_error rval = 0;
 
-#endif // EMSCRIPTEN
     /* Handle the core comparison feature */
     if (l_CoreCompareMode != 0 && !(g_CoreCapabilities & M64CAPS_CORE_COMPARE))
     {
@@ -936,5 +939,4 @@ int EMSCRIPTEN_KEEPALIVE startEmulator(int dummy)
     if (l_TestShotList != NULL)
         free(l_TestShotList);
 #endif //EMSCRIPTEN
-    return 0;
 }

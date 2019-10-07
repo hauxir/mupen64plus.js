@@ -1407,8 +1407,9 @@ void reloadTexture()
 #if 1 //(!EMSCRIPTEN)
   glBindTexture(GL_TEXTURE_2D, pBufferAddress);
 #else
-  /*EM_ASM_INT({
+  EM_ASM_INT({
     var id = $0|0;
+    console.log("pBufferAddress", id);
     if(!Module.texHandles)
     {
       Module.texHandles = {};
@@ -1428,7 +1429,7 @@ void reloadTexture()
       console.error("OGL returned texture handle ",handle," for id: ",id);
     }
   },
-    pBufferAddress);*/
+    pBufferAddress);
 #endif
   glDisable(GL_ALPHA_TEST);
   glDrawBuffer(current_buffer);
@@ -1471,8 +1472,9 @@ void updateTexture()
 #if 1 //(!EMSCRIPTEN)
     glBindTexture(GL_TEXTURE_2D, pBufferAddress);
 #else
-  /*EM_ASM_INT({
+  EM_ASM_INT({
     var id = $0|0;
+    console.log("pBufferAddress", id);
     if(!Module.texHandles)
     {
       Module.texHandles = {};
@@ -1492,15 +1494,16 @@ void updateTexture()
       console.error("OGL returned texture handle ",handle," for id: ",id);
     }
   },
-    pBufferAddress);*/
+    pBufferAddress);
 #endif
     glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
       0, viewport_offset, width, height, 0);
 #if 1 //(!EMSCRIPTEN)
     glBindTexture(GL_TEXTURE_2D, default_texture);
 #else
-      /*EM_ASM_INT({
+      EM_ASM_INT({
         var id = $0|0;
+    console.log("default_texture", id);
         if(!Module.texHandles)
         {
           Module.texHandles = {};
@@ -1520,7 +1523,7 @@ void updateTexture()
           console.error("OGL returned texture handle ",handle," for id: ",id);
         }
       },
-        default_texture);*/
+        default_texture);
 #endif
     glPopAttrib();
   }

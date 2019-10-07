@@ -63,10 +63,10 @@
   #define OSAL_CURRENT_DIR             "./"
   #define OSAL_DLL_EXTENSION           ".so"
 #else
-  #define OSAL_DEFAULT_DYNLIB_FILENAME "./plugins/mupen64plus-core-web.wasm"
+  #define OSAL_DEFAULT_DYNLIB_FILENAME "./plugins/mupen64plus-core-web.js"
   #define OSAL_DIR_SEPARATOR           '/'
   #define OSAL_CURRENT_DIR             "./"
-  #define OSAL_DLL_EXTENSION           ".wasm"
+  #define OSAL_DLL_EXTENSION           ".js"
 #endif
   #define osal_insensitive_strcmp(x, y) strcasecmp(x, y)
 

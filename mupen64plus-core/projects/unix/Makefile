@@ -156,15 +156,15 @@ endif
 
 # set special flags per-system
 ifeq ($(OS), FREEBSD)
-  TARGET = libmupen64plus$(POSTFIX).so.2.0.0
-  SONAME = libmupen64plus$(POSTFIX).so.2
+  TARGET = libmupen64plus$(POSTFIX).so.2.0.0.js
+  SONAME = libmupen64plus$(POSTFIX).so.2.js
   LDFLAGS += -Wl,-Bsymbolic -shared -Wl,-export-dynamic -Wl,-soname,$(SONAME)
   LDLIBS += -L${LOCALBASE}/lib -lc
   ASFLAGS = -f elf -d ELF_TYPE
 endif
 ifeq ($(OS), LINUX)
-  TARGET ?= libmupen64plus$(POSTFIX).so.2.0.0
-  SONAME ?= libmupen64plus$(POSTFIX).so.2
+  TARGET ?= libmupen64plus$(POSTFIX).so.2.0.0.js
+  SONAME ?= libmupen64plus$(POSTFIX).so.2.js
   LDFLAGS += -Wl,-Bsymbolic -shared -Wl,-export-dynamic -Wl,-soname,$(SONAME)
   LDLIBS += -ldl
   # only export api symbols

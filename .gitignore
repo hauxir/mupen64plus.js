@@ -29,6 +29,7 @@
 *.wasm
 *.wast
 *.wasm.map
+*.js.map
 
 /games
 /roms/*

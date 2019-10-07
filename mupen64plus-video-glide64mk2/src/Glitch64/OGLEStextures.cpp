@@ -47,6 +47,10 @@
 int TMU_SIZE = 8*2048*2048;
 static unsigned char* texture = NULL;
 
+void EMSCRIPTEN_KEEPALIVE glTexParameterf(GLenum target, GLenum pname, GLfloat param) asm("glTexParameterf");
+void EMSCRIPTEN_KEEPALIVE glTexParameteri(GLenum target, GLenum pname, GLfloat param) asm("glTexParameteri");
+
+
 int packed_pixels_support = -1;
 int ati_sucks = -1;
 float largest_supported_anisotropy = 1.0f;
@@ -652,8 +656,9 @@ grTexDownloadMipMap( GrChipID_t tmu,
 #if (!EMSCRIPTEN)
   glBindTexture(GL_TEXTURE_2D, startAddress+1);
 #else
-/*EM_ASM_INT({
+EM_ASM_INT({
   var id = $0|0;
+  console.log("startAddress+1", id);
   if(!Module.texHandles)
   {
     Module.texHandles = {};
@@ -673,7 +678,7 @@ grTexDownloadMipMap( GrChipID_t tmu,
     console.error("OGL returned texture handle ",handle," for id: ",id);
   }
 },
-  startAddress+1);*/
+  startAddress+1);
 #endif
 
   if (largest_supported_anisotropy > 1.0f)
@@ -699,8 +704,8 @@ grTexDownloadMipMap( GrChipID_t tmu,
 #if (!EMSCRIPTEN)
   glBindTexture(GL_TEXTURE_2D, default_texture);
 #else
-  /*EM_ASM_INT({
-    var id = $0|0;
+  EM_ASM({
+    var id = 134217728;
     if(!Module.texHandles)
     {
       Module.texHandles = {};
@@ -719,8 +724,7 @@ grTexDownloadMipMap( GrChipID_t tmu,
     }else{
       console.error("OGL returned texture handle ",handle," for id: ",id);
     }
-  },
-    default_texture);*/
+  });
   #endif
 }
 
@@ -752,8 +756,9 @@ grTexSource( GrChipID_t tmu,
 #if (!EMSCRIPTEN)
     glBindTexture(GL_TEXTURE_2D, startAddress+1);
 #else
-/*EM_ASM_INT({
+EM_ASM_INT({
     var id = $0|0;
+    console.log("startAddress+1", id);
     if(!Module.texHandles)
     {
       Module.texHandles = {};
@@ -773,7 +778,7 @@ grTexSource( GrChipID_t tmu,
       console.error("OGL returned texture handle ",handle," for id: ",id);
     }
   },
-    startAddress+1);*/
+    startAddress+1);
 #endif
 
 #ifdef VPDEBUG
@@ -809,8 +814,9 @@ grTexSource( GrChipID_t tmu,
 #if (!EMSCRIPTEN)
     glBindTexture(GL_TEXTURE_2D, startAddress+1);
 #else
-    /*EM_ASM_INT({
+    EM_ASM_INT({
         var id = $0|0;
+        console.log("startAddress+1", id);
         if(!Module.texHandles)
         {
           Module.texHandles = {};
@@ -830,7 +836,7 @@ grTexSource( GrChipID_t tmu,
           console.error("OGL returned texture handle ",handle," for id: ",id);
         }
       },
-        startAddress+1);*/
+        startAddress+1);
 #endif
 
 #ifdef VPDEBUG

@@ -4,7 +4,7 @@
 # pushd ../../../mupen64plus-video-rice/projects/unix/
 # ./build_emscripten.sh clean
 # ./build_emscripten.sh all
-# cp mupen64plus-video-rice.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+# cp mupen64plus-video-rice.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 # popd
 
 
@@ -12,35 +12,35 @@
 pushd ../../../mupen64plus-rsp-hle/projects/unix/
 ./build_emscripten.sh clean
 ./build_emscripten.sh all
-cp mupen64plus-rsp-hle.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+cp mupen64plus-rsp-hle.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 popd
 
 # Core library (plugin)
 pushd ../../../mupen64plus-core/projects/unix/
 ./build_emscripten.sh clean
 ./build_emscripten.sh all
-cp libmupen64plus.so.2.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+cp libmupen64plus.so.2.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 popd
 
 # Glide renderer plugin
 pushd ../../../mupen64plus-video-glide64mk2/projects/unix/
 ./build_emscripten.sh clean
 ./build_emscripten.sh all
-cp mupen64plus-video-glide64mk2.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+cp mupen64plus-video-glide64mk2.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 popd
 
 # SDL user input plugin
 pushd ../../../mupen64plus-input-sdl/projects/unix/
 ./build_emscripten.sh clean
 ./build_emscripten.sh all
-cp mupen64plus-input-sdl.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+cp mupen64plus-input-sdl.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 popd
 
 # SDL audio plugin
 pushd ../../../mupen64plus-audio-sdl/projects/unix/
 ./build_emscripten.sh clean
 ./build_emscripten.sh all
-cp mupen64plus-audio-sdl.wasm ../../../mupen64plus-ui-console/projects/unix/plugins/
+cp mupen64plus-audio-sdl.js ../../../mupen64plus-ui-console/projects/unix/plugins/
 popd
 
 rm mupen64plus.*
