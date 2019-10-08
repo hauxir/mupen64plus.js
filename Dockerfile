@@ -1,4 +1,4 @@
-FROM trzeci/emscripten:sdk-tag-1.38.47-64bit
+FROM trzeci/emscripten:latest
 
 WORKDIR /app
 CMD make config=debug
